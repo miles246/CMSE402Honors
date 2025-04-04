@@ -6,32 +6,29 @@
   <title>Pouring Perspectives</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
+      height: 100%;
       font-family: 'Inter', sans-serif;
-      background: #f9f5ec;
+      background: #f9f5ec url('https://upload.wikimedia.org/wikipedia/commons/0/06/Network_graph_d3js.svg') center center/cover no-repeat;
+      background-attachment: fixed;
       color: #2b2b2b;
       overflow-x: hidden;
     }
-    header {
+    header, section {
       height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      position: relative;
       text-align: center;
       padding: 2rem;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
     }
-    header::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
-      background-size: 30px 30px;
-      z-index: 0;
-    }
-    .hero {
-      z-index: 1;
+    section.active, header.active {
+      opacity: 1;
     }
     h1 {
       font-size: 3rem;
@@ -42,22 +39,11 @@
       max-width: 600px;
       margin: 0 auto;
     }
-    section {
-      padding: 4rem 2rem;
-      max-width: 800px;
-      margin: auto;
-    }
     iframe {
       width: 100%;
       height: 600px;
       border: none;
       margin-top: 2rem;
-    }
-    footer {
-      padding: 2rem;
-      text-align: center;
-      font-size: 0.9rem;
-      background-color: #ece5d8;
     }
     code {
       background-color: #fff9ef;
@@ -67,10 +53,16 @@
       margin-top: 1rem;
       white-space: pre-wrap;
     }
+    footer {
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      background-color: #ece5d8;
+    }
   </style>
 </head>
 <body>
-  <header>
+  <header class="active">
     <div class="hero">
       <h1>Pouring Perspectives</h1>
       <p>A minimalist exploration of alcohol consumption across the world through data visualization techniques.</p>
@@ -129,5 +121,18 @@ fig.show()
   <footer>
     Built with HTML, Plotly, and insights from CMSE. View on <a href="https://github.com/YOUR_USERNAME/YOUR_REPO_NAME" target="_blank">GitHub</a>
   </footer>
+
+  <script>
+    const sections = document.querySelectorAll('section, header');
+    let index = 0;
+    function showNextSection() {
+      if (index < sections.length) {
+        sections.forEach(s => s.classList.remove('active'));
+        sections[index].classList.add('active');
+        index++;
+      }
+    }
+    window.addEventListener('click', showNextSection);
+  </script>
 </body>
 </html>
