@@ -9,26 +9,32 @@
     html, body {
       margin: 0;
       padding: 0;
-      height: 100%;
+      height: 100vh;
+      width: 100vw;
       font-family: 'Inter', sans-serif;
       background: #f9f5ec url('https://upload.wikimedia.org/wikipedia/commons/0/06/Network_graph_d3js.svg') center center/cover no-repeat;
       background-attachment: fixed;
       color: #2b2b2b;
-      overflow-x: hidden;
+      overflow: hidden;
     }
-    header, section {
+    .scene {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
       height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 2rem;
       opacity: 0;
       transition: opacity 1s ease-in-out;
+      padding: 2rem;
     }
-    section.active, header.active {
+    .scene.active {
       opacity: 1;
+      z-index: 1;
     }
     h1 {
       font-size: 3rem;
@@ -37,11 +43,10 @@
     p {
       font-size: 1.2rem;
       max-width: 600px;
-      margin: 0 auto;
     }
     iframe {
-      width: 100%;
-      height: 600px;
+      width: 80%;
+      height: 400px;
       border: none;
       margin-top: 2rem;
     }
@@ -54,34 +59,35 @@
       white-space: pre-wrap;
     }
     footer {
-      padding: 2rem;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 1rem;
       text-align: center;
       font-size: 0.9rem;
-      background-color: #ece5d8;
+      background-color: rgba(236, 229, 216, 0.8);
     }
   </style>
 </head>
 <body>
-  <header class="active">
-    <div class="hero">
-      <h1>Pouring Perspectives</h1>
-      <p>A minimalist exploration of alcohol consumption across the world through data visualization techniques.</p>
-    </div>
-  </header>
+  <div class="scene active">
+    <h1>Pouring Perspectives</h1>
+    <p>A minimalist exploration of alcohol consumption across the world through data visualization techniques.</p>
+  </div>
 
-  <section>
+  <div class="scene">
     <h2>About This Project</h2>
     <p>This tutorial explores alcohol consumption trends globally and locally using data visualization principles inspired by Stephen Few, Alberto Cairo, and the Data Feminism framework.</p>
-  </section>
+  </div>
 
-  <section>
+  <div class="scene">
     <h2>World Map Visualization</h2>
     <p>The interactive visualization below shows alcohol consumption per capita across countries, correlated with income, suicide rates, and urbanization. Hover over each bubble to explore individual countries.</p>
     <iframe src="global_alcohol_bubble.html"></iframe>
     <p>CSV Data: <a href="gapminder_alcohol.csv" download>Download Source Data</a></p>
-  </section>
+  </div>
 
-  <section>
+  <div class="scene">
     <h2>Embed Python Code</h2>
     <p>You can reproduce this chart using Python and Plotly with the code snippet below:</p>
     <code>
@@ -105,9 +111,9 @@ fig = px.scatter(
 )
 fig.show()
     </code>
-  </section>
+  </div>
 
-  <section>
+  <div class="scene">
     <h2>Data Visualization Techniques</h2>
     <p>
       - <strong>Choropleth Maps:</strong> Best for showing geographical distributions (e.g., state-level alcohol use).<br>
@@ -116,23 +122,21 @@ fig.show()
       - <strong>Bar Charts:</strong> Clear for direct comparisons.<br>
       - <strong>Network Graphs:</strong> Useful to show relationships — here, they form the animated background.
     </p>
-  </section>
+  </div>
 
   <footer>
     Built with HTML, Plotly, and insights from CMSE. View on <a href="https://github.com/YOUR_USERNAME/YOUR_REPO_NAME" target="_blank">GitHub</a>
   </footer>
 
   <script>
-    const sections = document.querySelectorAll('section, header');
+    const scenes = document.querySelectorAll('.scene');
     let index = 0;
-    function showNextSection() {
-      if (index < sections.length) {
-        sections.forEach(s => s.classList.remove('active'));
-        sections[index].classList.add('active');
-        index++;
-      }
+    function showNext() {
+      scenes[index].classList.remove('active');
+      index = (index + 1) % scenes.length;
+      scenes[index].classList.add('active');
     }
-    window.addEventListener('click', showNextSection);
+    window.addEventListener('click', showNext);
   </script>
 </body>
 </html>
